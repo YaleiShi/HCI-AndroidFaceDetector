@@ -14,11 +14,14 @@ import com.affectiva.android.affdex.sdk.detector.Face;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class MainActivity extends AppCompatActivity implements Detector.ImageListener, CameraDetector.CameraEventListener {
     //1
     TextView tv1;
     TextView tv2;
     TextView tv3;
+    GifImageView gif;
     SurfaceView cameraDetectorSurfaceView;
     CameraDetector cameraDetector;
     ArrayList<JoyPoint> joyList = new ArrayList<JoyPoint>();
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements Detector.ImageLis
         setContentView(R.layout.activity_main);
 
         //3
+        gif = (GifImageView) findViewById(R.id.gif);
         tv1 = (TextView) findViewById(R.id.textViewA);
         tv2 = (TextView) findViewById(R.id.textViewB);
         tv3 = (TextView) findViewById(R.id.textViewC);
@@ -83,19 +87,17 @@ public class MainActivity extends AppCompatActivity implements Detector.ImageLis
 
             float averageSMA = averageSMA(joyList);
             float averageWMA = averageWMA(joyList);
-            if (averageSMA >= 40){
-                tv1.setText("You have reached the threshold using SMA\n" +
-                        "Your averageSMA is" + averageSMA);
+            if (averageSMA >= 20){
+                tv1.setText("You have reached the threshold using SMA\n");
             }else{
-                tv1.setText("Why not give me a smile?\n" +
-                        "Your averageSMA is" + averageSMA);
+                tv1.setText("Why not give me a smile?\n");
             }
-            if(averageWMA >= 40){
-                tv2.setText("You have reached the threshold using WMA\n" +
-                        "Your averageWMA is" + averageWMA);
+            if(averageWMA >= 20){
+                gif.setImageResource(R.drawable.timg);
+                tv2.setText("You have reached the threshold using WMA\n");
             }else{
-                tv2.setText("Why not give me a smile?\n" +
-                        "Your averageWMA is" + averageWMA);
+                gif.setImageResource(R.drawable.timg2);
+                tv2.setText("Why not give me a smile?\n");
             }
         }
 
@@ -111,12 +113,10 @@ public class MainActivity extends AppCompatActivity implements Detector.ImageLis
                 joyListTime.remove(0);
                 joyListTime.add(jp);
                 float averageSMAT = averageSMA(joyListTime);
-                if (averageSMAT >= 40){
-                    tv3.setText("You have reached the threshold using SMA using timestamps\n" +
-                            "Your averageSMATime is" + averageSMAT);
+                if (averageSMAT >= 20){
+                    tv3.setText("You have reached the threshold using SMA using timestamps\n");
                 }else{
-                    tv3.setText("Why not give me a smile?\n" +
-                            "Your averageSMATime is" + averageSMAT);
+                    tv3.setText("Why not give me a smile?\n");
                 }
             }
         }
